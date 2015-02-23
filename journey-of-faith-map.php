@@ -21,8 +21,6 @@ function install() {
 	$tbl = $wpdb->prefix . "jofmembers";
 	$sql = "CREATE TABLE `" . $tbl . "` (
 		`memberid` int(11) NOT NULL AUTO_INCREMENT,
-		`lastname` varchar(1024) NOT NULL,
-		`firstname` varchar(1024) NOT NULL,
 		`title` varchar(1024) NOT NULL,
 		`address` varchar(1024) NOT NULL,
 		`email` varchar(1024) NOT NULL,
