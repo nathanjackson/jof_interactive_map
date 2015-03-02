@@ -58,6 +58,13 @@ class JofMember {
 	}
 
 	/**
+	* Sets the member's id.
+	*/
+	public function setMemberId($id) {
+		$this->memberId = $id;
+	}
+
+	/**
 	* Sets the member's title.
 	*/
 	public function setTitle($title) {
