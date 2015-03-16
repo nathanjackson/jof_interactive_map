@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Members Menu</title>
+  <title>Location Menu</title>
   <link rel="stylesheet" href=location_menu.css">
 </head>
 <body>
-	<form action="editMember.php" method="post">
+	<form action="marker.php" method="post">
 		<fieldset>
-			<legend>Add Member</legend>
+			<legend>Add Location</legend>
 			Title: <input type="text" name="title"><br>
 			Address: <input type="text" name="address"><br>
 			Specialty: <input type="text" name="specialty"><br>
@@ -15,36 +15,36 @@
 		<input type="submit" name="edit" value="Add">
 		</fieldset>
 		<fieldset>
-			<legend>Edit Member</legend>
+			<legend>Edit Location</legend>
 			Change the <select name="fields">
 				<option value="title">Title</option>
 				<option value="address">Address</option>
 				<option value="email">E-Mail</option>
 				<option value="skills">Skills</option>
 			</select>
-			Member ID: <input type="text" name="editMember">
+			Location ID: <input type="text" name="editMember">
 			New Value: <input type="text" name="newValue">
 			<input type="submit" name="edit" value="Edit">
 		</fieldset>
 		<fieldset>
-			<legend>Delete Member</legend>
-			Member ID: <input type="text" name="deleteMember">
+			<legend>Delete Location</legend>
+			Location ID: <input type="text" name="deleteMember">
 			<input type="submit" name="edit" value="Delete"><br />
 		</fieldset>
 	</form>
 
 	<?php
-		include_once('data_layer/JofMembersInterface.php');
-		include_once('data_layer/JofMember.php');
-		$members = getAllMembersFromDatabase();
+		include_once('data_layer/JofLocationsInterface.php');
+		include_once('data_layer/JofLocation.php');
+		$locations = getAllLocationsFromDatabase();
 		echo "<ul>";
-		foreach($members as $member)
+		foreach($locations as $location)
 		{
-			$title = $member->getTitle();
-			$addr = $member->getAddress();
-			$email = $member->getEmail();
-			$specialty = $member->getSkills();
-			$id = $member->getMemberId();
+			$title = $location->getTitle();
+			$addr = $location->getAddress();
+			$email = $location->getEmail();
+			$specialty = $location->getSkills();
+			$id = $location->getMemberId();
 			echo "<li>ID: " . $id . " Title: " . $title .  " Address: " . $addr . " E-Mail: " . $email . " Skills: " . $specialty"</li>";
 		}
 		echo "</ul>";

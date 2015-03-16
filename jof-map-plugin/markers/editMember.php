@@ -34,6 +34,7 @@
 			default:
 				echo "You somehow selected something different";
 			}
+			updateMember($_POST['fields'], $id, $change); 
 			echo "Member updated";
 		} 
 		else if ($_POST['edit'] == 'Delete') 

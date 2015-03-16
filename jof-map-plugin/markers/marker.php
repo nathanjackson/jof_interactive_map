@@ -1,20 +1,49 @@
-<html>
-<body>
-	<h1>Not Implemented Yet</h1>
-	<!--Use google geolocation api to turn address into lat,long
-	save info to database-->
+
 	<?php
 		include_once('data_layer/JofMember.php');
 		include_once('data_layer/JofMembersInterface.php');
 		
-		$memberId = $_POST["name"];
-		$title = $_POST["title"];
-		$address = $_POST["address"];
-		$email = $_POST["contact"];
-		$skills = $_POST["specialty"];
-		
-		$member = new JofMember($title, $address, $email, $skills);
-		addMemberToDatabase($member);
+		if ($_POST['edit'] == 'Add')
+		{
+			$title = $_POST["title"];
+			$address = $_POST["address"];
+			$email = $_POST["contact"];
+			$skills = $_POST["specialty"];
+			$member = new JofMember($title, $address, $email, $skills);
+			addMemberToDatabase($member);
+		}
+		else if ($_POST['edit'] == 'Edit') 
+		{
+			$change = $_POST['newValue'];
+			$id = $_POST['editMember'];
+			$member = getMemberFromDatabase($id) 
+			switch ($_POST['fields']) 
+			{
+			case "title":
+				$member->setTitle($change);
+				break;
+			case "address":
+				$member->setAddress($change);
+				break;
+			case "email":
+				$member->setEmail($change);
+				break;
+			case "skills":
+				$member->setSkills($change);
+				break;
+			default:
+				echo "You somehow selected something different";
+			}
+			echo "Member updated";
+		} 
+		else if ($_POST['edit'] == 'Delete') 
+		{
+			$id = $_POST['deleteMember'];
+			removeMemberFromDatabase($id);
+		}		 
+		else 
+		{
+			echo "You somehow selected something different";
+		}
+
 	?>
-</body>
-</html>
