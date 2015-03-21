@@ -38,6 +38,35 @@ function install() {
 		PRIMARY KEY  (`regionid`)
 	) " . $charset_collate . ";";
 	dbDelta($sql);
+
+	// Add JofEvents table.
+	$tbl = $wpdb->prefix . "jofevents";
+	$sql = "CREATE TABLE `" . $tbl . "` (
+		`eventid` int(11) NOT NULL AUTO_INCREMENT,
+		`name` varchar(1024) NOT NULL,
+		`address` varchar(1024) NOT NULL,
+		`startDate` datetime(6) NOT NULL,
+		`endDate` datetime(6) NOT NULL,
+		PRIMARY KEY (`eventid`)
+	) " . $charset_collate . ";";
+	dbDelta($sql);
+}
+
+/**
+* Checks all the dates in the database for past events.  If a past event is
+* found then it is deleted.
+*/
+function checkDates() {
+	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofEventsInterface.php");
+
+	$events = getAllEventsFromDatabase();
+
+	foreach($events as $evt) {
+		$endTimestamp = new DateTime($evt->getEndDate());
+		if($endTimestamp->getTimestamp() < time())
+			removeEventFromDatabase($evt->getEventId());
+	}
 }
 
 register_activation_hook(__FILE__, 'install');
+add_action('plugins_loaded', 'checkDates');
