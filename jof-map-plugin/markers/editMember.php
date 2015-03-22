@@ -5,11 +5,12 @@
 		
 		if ($_POST['edit'] == 'Add')
 		{
+			$name = $_POST["name"];
 			$title = $_POST["title"];
 			$address = $_POST["address"];
 			$email = $_POST["contact"];
 			$skills = $_POST["specialty"];
-			$member = new JofMember($title, $address, $email, $skills);
+			$member = new JofMember($name, $title, $address, $email, $skills);
 			addMemberToDatabase($member);
 		}
 		else if ($_POST['edit'] == 'Edit') 
@@ -19,6 +20,9 @@
 			$member = getMemberFromDatabase($id) 
 			switch ($_POST['fields']) 
 			{
+			case "name":
+				$member->setName($change);
+				break;
 			case "title":
 				$member->setTitle($change);
 				break;
@@ -34,7 +38,7 @@
 			default:
 				echo "You somehow selected something different";
 			}
-			updateMember($_POST['fields'], $id, $change); 
+			addMemberToDatabase($member) 
 			echo "Member updated";
 		} 
 		else if ($_POST['edit'] == 'Delete') 

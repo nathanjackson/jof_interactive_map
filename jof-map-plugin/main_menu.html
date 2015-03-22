@@ -5,33 +5,23 @@
   <link rel="stylesheet" href=main_menu.css">
 </head>
 <body>
-	<button type="button" onclick="locationMenu()">Locations</button><br />
-	<button type="button" onclick="eventMenu()">Events</button><br />
-	<button type="button" onclick="regionMenu()">Regions</button><br />
 	<button type="button" onclick="membersMenu()">JoF Members</button><br />
-	<button type="button" onclick="graphicAdd()">Graphically Add Markers and Regions</button><br />
+	<button type="button" onclick="eventMenu()">Events</button><br />
+	<button type="button" onClick="regionMenu()">Regions</button><br />
 	<button type="button" onclick="mapView()">Preview Map</button><br />
 	
 	<script>
-		function locationMenu()
-		{
-			window.location.href = "file:///C:/Users/Scott/Documents/School/Software_Engineering/jof_interactive_map/jof-map-plugin/markers/locationMenu.html";
-		}
 		function eventMenu()
 		{
 			window.location.href = "file:///C:/Users/Scott/Documents/School/Software_Engineering/jof_interactive_map/jof-map-plugin/markers/event_menu.html";
-		}
-		function regionMenu()
-		{
-			window.location.href = "file:///C:/Users/Scott/Documents/School/Software_Engineering/jof_interactive_map/jof-map-plugin/markers/regions.html";
 		}
 		function membersMenu()
 		{
 			window.location.href = "file:///C:/Users/Scott/Documents/School/Software_Engineering/jof_interactive_map/jof-map-plugin/markers/members_menu.html";
 		}
-		function graphicAdd()
+		function regionMenu()
 		{
-			window.location.href = "file:///C:/Users/Scott/Documents/School/Software_Engineering/jof_interactive_map/jof-map-plugin/markers/graphical.html";
+			window.location.href = "file:///C:/Users/Scott/Documents/School/Software_Engineering/jof_interactive_map/jof-map-plugin/markers/regions.html";
 		}
 		function mapView()
 		{

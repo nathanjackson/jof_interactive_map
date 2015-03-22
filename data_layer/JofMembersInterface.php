@@ -36,13 +36,6 @@ function removeMemberFromDatabase($id) {
 			$id));
 }
 
-function updateMember($column, $id, $value) {
-		global $wpdb;
-		$table_name = $wpdb->prefix . 'jofmembers';
-		$wpdb->query(
-			$wpdb->prepare("UPDATE $table_name SET $column = $value WHERE memberid = $id;";
-}
-
 /**
 * Gets the member specified by an id from the Wordpress database.
 */
