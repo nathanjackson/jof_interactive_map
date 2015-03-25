@@ -8,7 +8,6 @@
 	<form action="editMember.php" method="post">
 		<fieldset>
 			<legend>Add Member</legend>
-			Name of Location: <input type="text" name="name"><br>
 			Title: <input type="text" name="title"><br>
 			Address: <input type="text" name="address"><br>
 			Specialty: <input type="text" name="specialty"><br>
@@ -18,7 +17,6 @@
 		<fieldset>
 			<legend>Edit Member</legend>
 			Change the <select name="fields">
-				<option value="name">Name</option>
 				<option value="title">Title</option>
 				<option value="address">Address</option>
 				<option value="email">E-Mail</option>
@@ -36,19 +34,18 @@
 	</form>
 
 	<?php
-		include_once('data_layer/JofMembersInterface.php');
-		include_once('data_layer/JofMember.php');
+		include_once('../../../../wp-load.php');
+		include_once('../data_layer/JofMembersInterface.php');
 		$members = getAllMembersFromDatabase();
 		echo "<ul>";
 		foreach($members as $member)
 		{
-			$name = $member->getName();
 			$title = $member->getTitle();
 			$addr = $member->getAddress();
 			$email = $member->getEmail();
 			$specialty = $member->getSkills();
 			$id = $member->getMemberId();
-			echo "<li>ID: $id Name: $name Title: $title Address: $addr E-Mail: $email Skills: $specialty</li>";
+			echo "<li>ID: $id Title: $title Address: $addr E-Mail: $email Skills: $specialty</li>";
 		}
 		echo "</ul>";
 	?>

@@ -84,4 +84,11 @@ class JofMember {
 	public function setEmail($email) {
 		$this->email = $email;
 	}
+
+	/**
+	* Set the member's skills.
+	*/
+	public function setSkills($skills) {
+		$this->skills = $skills;
+	}
 }
