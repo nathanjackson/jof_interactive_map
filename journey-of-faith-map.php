@@ -1,11 +1,17 @@
 <?php
 /**
-* Plugin Name: Journey of Faith Map
-* Description: Plugin to add an interactive map for the JoF organization
-* Version: 1.0
-* Author: Nathan Jackson, Scott Bollinger, Dominic Desimio, Jordan Cordova, Jacob Slezak
-* License: MIT
+*
+*@package jof_interactive_map
 */
+/*
+Plugin Name: Journey of Faith Map
+Description: Plugin to add an interactive map for the JoF organization
+Version: 1.0
+Author: Nathan Jackson, Scott Bollinger, Dominic Desimio, Jordan Cordova, Jacob Slezak
+License: MIT
+*/
+
+define( 'PLUGIN_DIR', plugin_dir_path(_FILE_) );
 
 /**
 * Adds map data tables to the Wordpress database.
@@ -68,7 +74,36 @@ function checkDates() {
 	}
 }
 
+function mainMenu()
+{
+	echo "
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/members_menu.html\"<button type=\"button\">JoF Members</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/regions.html\"<button type=\"button\">Regions</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/event_menu.html\"<button type=\"button\">Events</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/map.js\"<button type=\"button\">Preview Map</button></a><br />
+	";
+}
+
 register_activation_hook(__FILE__, 'install');
 add_action('plugins_loaded', 'checkDates');
+//add_action('plugins_loaded', 'mainMenu');
+add_action('admin_menu', 'plugin_menu');
+
+function plugin_menu(){
+	$page_title = 'JoF Plugin';
+	$menu_title = 'JoF Plugin';
+	$capability = 'manage_options';
+	$menu_slug = 'jof-plugin';
+	$function = 'jof';
+	add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function);
+}
+
+function jof(){
+	if (!current_user_can('manage_options')) {
+        wp_die('You do not have sufficient permissions to access this page.');
+    }
+	mainMenu();
+}
+
 ?>
 
