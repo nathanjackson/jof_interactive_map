@@ -5,7 +5,7 @@
   <link rel="stylesheet" href=location_menu.css">
 </head>
 <body>
-	<form action="regions.php" method="post" id="addRegion">
+	<form action="regionsHandler.php" method="post" id="addRegion">
 		<fieldset>
 			<legend>Add Region</legend>
 			Name: <input type="text" name="name"><br>
@@ -31,8 +31,8 @@
 		</fieldset>
 	</form>
 	<?php
-		include_once('data_layer/JofRegionsInterface.php');
-		include_once('data_layer/JofRegion.php');
+		include_once('../../../../wp-load.php');
+                include_once('../data_layer/JofRegionsInterface.php');
 		$regions = getAllRegionsFromDatabase();
 		echo "<ul>";
 		foreach($regions as $r)

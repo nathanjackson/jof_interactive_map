@@ -3,7 +3,7 @@
 /*
 * Class representing a Journey of Faith team member.
 */
-class JofMember {
+class JofMember implements JsonSerializable {
 	private $memberId;
 	private $title;
 	private $address;
@@ -83,5 +83,21 @@ class JofMember {
 	*/
 	public function setEmail($email) {
 		$this->email = $email;
+	}
+
+	/**
+	* Set the member's skills.
+	*/
+	public function setSkills($skills) {
+		$this->skills = $skills;
+	}
+
+	public function jsonSerialize() {
+		return [
+			'title' => $this->title,
+			'address' => $this->address,
+			'email' => $this->email,
+			'skills' => $this->skills
+		];
 	}
 }

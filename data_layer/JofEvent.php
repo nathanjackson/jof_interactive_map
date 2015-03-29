@@ -3,7 +3,7 @@
 /*
 * Class representing a Journey of Faith event.
 */
-class JofEvent {
+class JofEvent implements JsonSerializable {
 	private $id;
 	private $name;
 	private $address;
@@ -91,5 +91,14 @@ class JofEvent {
 	*/
 	public function setEndDate($endDate) {
 		$this->endDate = $endDate;
+	}
+
+	public function jsonSerialize() {
+		return [
+			'name' => $this->name,
+			'address' => $this->address,
+			'startdate' => $this->startDate,
+			'enddate' => $this->endDate
+		];
 	}
 }
