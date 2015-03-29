@@ -3,7 +3,7 @@
 /*
 * Class representing a Journey of Faith region.
 */
-class  JofRegion {
+class  JofRegion implements JsonSerializable {
 	private $regionId;
 	private $name;
 	private $geoJsonStr;
@@ -58,5 +58,12 @@ class  JofRegion {
 	*/
 	public function setGeoJsonStr($geoJsonStr) {
 		$this->geoJsonStr = $geoJsonStr;
+	}
+
+	public function jsonSerialize() {
+		return [
+			'name' => $this->name,
+			'geojson' => $this->geoJsonStr
+		];
 	}
 }
