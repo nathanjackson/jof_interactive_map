@@ -6,6 +6,7 @@ if ($_POST['edit'] == 'Add')
 {
 	$name = $_POST["name"];
 	$geojson = $_POST["geojson"];
+	$geojson = trim(preg_replace('/\s+/', ' ', $geojson));
 	$region = new JofRegion($name, $geojson);
 	addRegionToDatabase($region);
 }
