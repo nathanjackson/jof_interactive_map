@@ -45,7 +45,7 @@
 			$email = $member->getEmail();
 			$specialty = $member->getSkills();
 			$id = $member->getMemberId();
-			echo "<li>ID: $id Title: $title Address: $addr E-Mail: $email Skills: $specialty</li>";
+			echo "<li>ID: $id\n\tTitle: $title\n\tAddress: $addr\n\tE-Mail: $email\n\tSkills: $specialty</li>";
 		}
 		echo "</ul>";
 	?>

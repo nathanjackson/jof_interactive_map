@@ -77,10 +77,10 @@ function checkDates() {
 function mainMenu()
 {
 	echo "
-	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/members_menu.html\"<button type=\"button\">JoF Members</button></a><br />
-	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/regions.html\"<button type=\"button\">Regions</button></a><br />
-	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/event_menu.html\"<button type=\"button\">Events</button></a><br />
-	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/jof_interactive_map/jof-map-plugin/markers/map.js\"<button type=\"button\">Preview Map</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/plugins/jof_interactive_map/markers/members_menu.php\"><button type=\"button\">JoF Members</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/plugins/jof_interactive_map/markers/regions.php\"><button type=\"button\">Regions</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/plugins/jof_interactive_map/markers/event_menu.php\"><button type=\"button\">Events</button></a><br />
+	<a href=\"http://172.27.100.10/~sbollinger/wordpress/wp-content/plugins/jof_interactive_map/jof-map-plugin/markers/map.js\"><button type=\"button\">Preview Map</button></a><br />
 	";
 }
 
