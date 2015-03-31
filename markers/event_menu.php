@@ -2,10 +2,10 @@
 <html>
 <head>
   <title>Event Menu</title>
-  <link rel="stylesheet" href=location_menu.css">
+  <link rel="stylesheet" href="location_menu.css">
 </head>
 <body>
-	<form action="saveEvent.php" method="post">
+	<form action="saveEvent.php" method="post" enctype="multipart/form-data">
 		<fieldset>
 			<legend>Add Event</legend>
 			Name: <input type="text" name="name"><br>
@@ -22,6 +22,11 @@
 			End Hour: <input type="text" name="ehour"><br>
 			End Minute: <input type="text" name="eminute"><br>
 		<input type="submit" name="edit" value="Add">
+		</fieldset>
+		<fieldset>
+			<legend>Upload CSV Spreadsheet</legend>
+			<input type="file" name="file" id="file"><br />
+			<input type="submit" name="edit" value="Upload">
 		</fieldset>
 		<fieldset>
 			<legend>Edit Event</legend>
@@ -44,7 +49,7 @@
 		include_once('data_layer/JofEventsInterface.php');
 		include_once('data_layer/JofEvent.php');
 		$events = getAllEventsFromDatabase();
-		echo "<ul>";
+		echo "<table><tr><th>ID</th><th>Name</th><th>Address</th><th>Begin Date</th><th>End Date</th></tr>";
 		foreach($events as $event)
 		{
 			$name = $event->getName();
@@ -52,9 +57,9 @@
 			$begin = $event->getBeginDate();
 			$end = $event->getEndDate();
 			$id = $event->getMemberId();
-			echo "<li>ID: $id Name: $name Address: $addr Start Date: $begin End Date: $end</li>";
+			echo "<tr><td>$id</td><td>$name</td><td>$addr</td><td>$begin</td><td>$end</td></tr>";
 		}
-		echo "</ul>";
+		echo "</table>";
 	?>
 </body>
 </html>

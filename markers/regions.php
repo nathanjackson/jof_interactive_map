@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Regions Menu</title>
-  <link rel="stylesheet" href=location_menu.css">
+  <link rel="stylesheet" href="location_menu.css">
 </head>
 <body>
 	<form action="regionsHandler.php" method="post" id="addRegion">
@@ -34,15 +34,14 @@
 		include_once('../../../../wp-load.php');
                 include_once('../data_layer/JofRegionsInterface.php');
 		$regions = getAllRegionsFromDatabase();
-		echo "<ul>";
+		echo "<table><tr><th>ID</th><th>Name</th>";
 		foreach($regions as $r)
 		{
 			$name = $r->getName();
-			$geo = $r->getGeoJsonStr();
 			$id = $r->getRegionId();
-			echo "<li>ID: $id Name: $name</li>";
+			echo "<tr><td>$id</td><td>$name</td></tr>";
 		}
-		echo "</ul>";
+		echo "</table>";
 	?>
 </body>
 </html>

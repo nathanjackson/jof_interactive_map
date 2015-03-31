@@ -86,7 +86,7 @@ function mainMenu()
 
 register_activation_hook(__FILE__, 'install');
 add_action('plugins_loaded', 'checkDates');
-//add_action('plugins_loaded', 'mainMenu');
+
 add_action('admin_menu', 'plugin_menu');
 
 function plugin_menu(){

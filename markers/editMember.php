@@ -15,6 +15,28 @@ if ($_POST['edit'] == 'Add')
 	$member = new JofMember($title, $address, $email, $skills, $lat, $long);
 	addMemberToDatabase($member);
 }
+else if ($_POST['edit'] == 'Upload')
+{
+	   if (isset($_FILES["file"])) 
+	   {
+			//if there was an error uploading the file
+			if ($_FILES["file"]["error"] > 0) 
+			{
+            echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+			}
+			else 
+			{	
+				//Store file in directory "upload" with the name of "members.csv"
+				$storagename = "members.csv";
+				move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $storagename);
+				echo "Stored in: " . "upload/" . $_FILES["file"]["name"] . "<br />";
+			}
+     } 
+	 else 
+	 {
+		echo "No file selected <br />";
+     }
+}
 else if ($_POST['edit'] == 'Edit') 
 {
 	$change = $_POST['newValue'];
@@ -62,6 +84,7 @@ function get_lat_long($address){
     $lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
     $long = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
 	$LatLng = array($lat, $long);
+	echo $LatLng;
     return $LatLng;
 }
 

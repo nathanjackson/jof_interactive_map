@@ -21,6 +21,28 @@
 		$event = new JofEvent($name, $address, $begin, $end);
 		addEventToDatabase($event);
 	}
+	else if ($_POST['edit'] == 'Upload')
+	{
+	   if (isset($_FILES["file"])) 
+	   {
+			//if there was an error uploading the file
+			if ($_FILES["file"]["error"] > 0) 
+			{
+            echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+			}
+			else 
+			{	
+				//Store file in directory "upload" with the name of "events.csv"
+				$storagename = "events.csv";
+				move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $storagename);
+				echo "Stored in: " . "upload/" . $_FILES["file"]["name"] . "<br />";
+			}
+     } 
+	 else 
+	 {
+		echo "No file selected <br />";
+     }
+}
 	else if ($_POST['edit'] == 'Edit') 
 	{
 		$change = $_POST['newValue'];

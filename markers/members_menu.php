@@ -2,10 +2,10 @@
 <html>
 <head>
   <title>Members Menu</title>
-  <link rel="stylesheet" href=location_menu.css">
+  <link rel="stylesheet" href="location_menu.css">
 </head>
 <body>
-	<form action="editMember.php" method="post">
+	<form action="editMember.php" method="post" enctype="multipart/form-data">
 		<fieldset>
 			<legend>Add Member</legend>
 			Title: <input type="text" name="title"><br>
@@ -13,6 +13,11 @@
 			Specialty: <input type="text" name="specialty"><br>
 			E-Mail: <input type="text" name="contact"><br>
 		<input type="submit" name="edit" value="Add">
+		</fieldset>
+		<fieldset>
+			<legend>Upload CSV Spreadsheet</legend>
+			<input type="file" name="file" id="file"><br />
+			<input type="submit" name="edit" value="Upload">
 		</fieldset>
 		<fieldset>
 			<legend>Edit Member</legend>
@@ -37,7 +42,7 @@
 		include_once('../../../../wp-load.php');
 		include_once('../data_layer/JofMembersInterface.php');
 		$members = getAllMembersFromDatabase();
-		echo "<ul>";
+		echo "<table><tr><th>ID</th><th>Title</th><th>Address</th><th>E-Mail</th><th>Skills</th></tr>";
 		foreach($members as $member)
 		{
 			$title = $member->getTitle();
@@ -45,9 +50,9 @@
 			$email = $member->getEmail();
 			$specialty = $member->getSkills();
 			$id = $member->getMemberId();
-			echo "<li>ID: $id\n\tTitle: $title\n\tAddress: $addr\n\tE-Mail: $email\n\tSkills: $specialty</li>";
+			echo "<tr><td>$id</td><td>$title</td><td>$addr</td><td>$email</td><td>$specialty</td></tr>";
 		}
-		echo "</ul>";
+		echo "</table>";
 	?>
 </body>
 </html>
