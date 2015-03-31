@@ -4,29 +4,10 @@ include_once('data_layer/JofMembersInterface.php');
 		
 if($_POST['Update'] == 'Modify')
 {
-	$change = $_POST['newValue'];
-	$id = $_POST['editMember'];
-	$member = getMemberFromDatabase($id);
-	switch ($_POST['fields']) 
-	{
-	case "title":
-		$member->setTitle($change);
-		break;
-	case "address":
-		$member->setAddress($change);
-		break;
-	case "email":
-		$member->setEmail($change);
-		break;
-	case "skills":
-		$member->setSkills($change);
-		break;
-	default:
-		echo "You somehow selected something different";
-		break;
-	}
+	$member = new JofMember($_POST['title'], $_POST['address'],
+		$_POST['specialty'], $_POST['email']);
+	$member->setMemberId($_POST['selected_member']);
 	addMemberToDatabase($member);
-	echo "Member updated";
 }
 else if($_POST['Update'] == 'Delete')
 {
