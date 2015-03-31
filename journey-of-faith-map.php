@@ -52,6 +52,72 @@ function install() {
 	dbDelta($sql);
 }
 
+function mapManagementPage() {
+	if(!current_user_can( 'manage_options' ) ) {
+		wp_die(__('You do not have sufficient permissions to access this page.'));
+	}
+
+	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofMembersInterface.php");
+	$members = getAllMembersFromDatabase();
+
+	?>
+	<h2>Interactive Map Management</h2><br>
+	<form>
+		<h4>Data Import</h4>
+		<fieldset>
+			File: <input type='file' title='spreadsheet'><br>
+			<input type='submit' name='Import' value='Import'>
+		</fieldset>
+	</form><br>
+	<form action=<?php echo plugins_url() . '/jof_interactive_map/add_member.php'; ?> method='post'>
+		<h4>Add New Member</h4>
+		<fieldset>
+			Title: <input type='text' name='title'><br>
+			Address: <input type='text' name='address'><br>
+			Specialty: <input type='text' name='specialty'><br>
+			E-Mail: <input type='text' name='email'><br>
+			<input type='submit' name='Add' value='Add'>
+		</fieldset>
+	</form>
+	<form id='memberUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/edit_member.php'; ?> method='post'>
+		<h4>Edit or Remove Members</h4>
+		<fieldset>
+			<select multiple id='selected_member' name='selected_member' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>
+			<?php
+				foreach($members as $member) {
+					$id = $member->getMemberId();
+					$title = $member->getTitle();
+					echo "<option value=\"$id\">$title</option>";
+				}
+			?>
+			</select><br>
+			Title: <input id='title' type='text' name='title'><br>
+			Address: <input id='address' type='text' name='address'><br>
+			Specialty: <input id='specialty' type='text' name='specialty'><br>
+			E-Mail: <input id='email' type='text' name='email'><br>
+			<input type='submit' name='Update' value='Modify'>
+			<input type='submit' name='Update' value='Delete'>
+		<script>
+			var members = JSON.parse('<?php echo json_encode($members); ?>');
+			function fillUpdateForm(idx) {
+				document.getElementById('memberUpdateForm').title.value = members[idx].title;
+				document.getElementById('memberUpdateForm').address.value = members[idx].address;
+				document.getElementById('memberUpdateForm').specialty.value = members[idx].skills;
+				document.getElementById('memberUpdateForm').email.value = members[idx].email;
+			}
+		</script>
+
+		</fieldset>
+	</form><br>
+	<?php
+}
+
+function map_management_hook() {
+	add_management_page('Interactive Map Manager',
+		'Interactive Map Manager', 'manage_options', 'map-manager',
+		'mapManagementPage');
+}
+
 /**
 * Checks all the dates in the database for past events.  If a past event is
 * found then it is deleted.
@@ -70,5 +136,7 @@ function checkDates() {
 
 register_activation_hook(__FILE__, 'install');
 add_action('plugins_loaded', 'checkDates');
+add_action( 'admin_menu', 'map_management_hook' );
+
 ?>
 
