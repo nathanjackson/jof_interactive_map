@@ -94,6 +94,7 @@ class JofMember implements JsonSerializable {
 
 	public function jsonSerialize() {
 		return [
+			'id' => $this->memberId,
 			'title' => $this->title,
 			'address' => $this->address,
 			'email' => $this->email,
