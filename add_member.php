@@ -8,8 +8,26 @@ if($_POST['Add'] == 'Add')
 	$address = $_POST['address'];
 	$email = $_POST['email'];
 	$skills = $_POST['specialty'];
-	$member = new JofMember($title, $address, $email, $skills);
+	$LatLng = get_lat_long($address);
+	$lat = $LatLng[0];
+	$long = $LatLng[1];
+	$member = new JofMember($title, $address, $email, $skills, $lat, $long);
 	addMemberToDatabase($member);
+}
+
+// function to get  the address
+function get_lat_long($address){
+
+    $address = str_replace(" ", "+", $address);
+
+    $json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=$region");
+    $json = json_decode($json);
+
+    $lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
+    $long = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lng'};
+	$LatLng = array($lat, $long);
+	echo $LatLng;
+    return $LatLng;
 }
 
 echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
