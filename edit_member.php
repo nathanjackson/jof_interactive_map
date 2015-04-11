@@ -4,12 +4,11 @@ include_once('data_layer/JofMembersInterface.php');
 		
 if($_POST['Update'] == 'Modify')
 {
-	$LatLng = get_lat_long($address);
+	$LatLng = get_lat_long($_POST['address']);
 	$lat = $LatLng[0];
 	$long = $LatLng[1];
-	$member = new JofMember($title, $address, $email, $skills, $lat, $long);
-	$member = new JofMember($_POST['title'], $_POST['address'],
-		$_POST['specialty'], $_POST['email'], $lat, $long);
+	$member = new JofMember($_POST['title'], $_POST['address'], $lat, $long,
+		$_POST['email'], $_POST['specialty']);
 	$member->setMemberId($_POST['selected_member']);
 	addMemberToDatabase($member);
 }
@@ -24,7 +23,7 @@ function get_lat_long($address){
 
     $address = str_replace(" ", "+", $address);
 
-    $json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=$region");
+    $json = file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=$address&sensor=false");
     $json = json_decode($json);
 
     $lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};

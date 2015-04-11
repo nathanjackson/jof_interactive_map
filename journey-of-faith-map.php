@@ -206,7 +206,7 @@ function regionsManagementPage()
 		<input type="submit" name="add" value="Add">
 		</fieldset>
 		</form><br />
-		<form id='regionUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/regionHandler.php'; ?> method='post'>
+		<form id='regionUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/regionsHandler.php'; ?> method='post'>
 			<h4>Edit or Remove Regions</h4>
 			<fieldset>
 				<select multiple id='selected_region' name='selected_region' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>

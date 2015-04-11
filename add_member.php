@@ -11,7 +11,7 @@ if($_POST['Add'] == 'Add')
 	$LatLng = get_lat_long($address);
 	$lat = $LatLng[0];
 	$long = $LatLng[1];
-	$member = new JofMember($title, $address, $email, $skills, $lat, $long);
+	$member = new JofMember($title, $address, $lat, $long, $email, $skills);
 	addMemberToDatabase($member);
 }
 
@@ -20,7 +20,7 @@ function get_lat_long($address){
 
     $address = str_replace(" ", "+", $address);
 
-    $json = file_get_contents("http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false&region=$region");
+    $json = file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=$address&sensor=false");
     $json = json_decode($json);
 
     $lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
