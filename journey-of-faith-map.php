@@ -23,6 +23,8 @@ function install() {
 		`memberid` int(11) NOT NULL AUTO_INCREMENT,
 		`title` varchar(1024) NOT NULL,
 		`address` varchar(1024) NOT NULL,
+		`latdeg` real NOT NULL,
+		`londeg` real NOT NULL,
 		`email` varchar(1024) NOT NULL,
 		`skills` text NOT NULL,
 		PRIMARY KEY  (`memberid`)
@@ -45,6 +47,8 @@ function install() {
 		`eventid` int(11) NOT NULL AUTO_INCREMENT,
 		`name` varchar(1024) NOT NULL,
 		`address` varchar(1024) NOT NULL,
+		`latdeg` real NOT NULL,
+		`londeg` real NOT NULL,
 		`startDate` datetime(6) NOT NULL,
 		`endDate` datetime(6) NOT NULL,
 		PRIMARY KEY (`eventid`)
