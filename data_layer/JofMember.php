@@ -7,16 +7,20 @@ class JofMember implements JsonSerializable {
 	private $memberId;
 	private $title;
 	private $address;
+	private $latDeg;
+	private $lonDeg;
 	private $email;
 	private $skills;
 
 	/**
 	* Construct a new JofMember object.
 	*/
-	public function __construct($title, $addr, $email, $skills) {
+	public function __construct($title, $addr, $latDeg, $lonDeg, $email, $skills) {
 		$this->memberId = null;
 		$this->title = $title;
 		$this->address = $addr;
+		$this->latdeg = $latDeg;
+		$this->londeg = $lonDeg;
 		$this->email = $email;
 		$this->skills = $skills;
 	}
@@ -41,6 +45,20 @@ class JofMember implements JsonSerializable {
 	*/
 	public function getAddress() {
 		return $this->address;
+	}
+
+	/**
+	* Gets the member latitude.
+	*/
+	public function getLatDeg() {
+		return $this->latdeg;
+	}
+
+	/**
+	* Gets the member longitude.
+	*/
+	public function getLonDeg() {
+		return $this->londeg;
 	}
 
 	/**
@@ -79,6 +97,20 @@ class JofMember implements JsonSerializable {
 	}
 
 	/**
+	* Sets the member's latitude.
+	*/
+	public function setLatDeg($latdeg) {
+		$this->latdeg = $latdeg;
+	}
+
+	/**
+	* Sets the member's longitude.
+	*/
+	public function setLonDeg($londeg) {
+		$this->londeg = $londeg;
+	}
+
+	/**
 	* Set the member's email.
 	*/
 	public function setEmail($email) {
@@ -97,6 +129,8 @@ class JofMember implements JsonSerializable {
 			'id' => $this->memberId,
 			'title' => $this->title,
 			'address' => $this->address,
+			'latdeg' => $this->latDeg,
+			'londeg' => $this->lonDeg,
 			'email' => $this->email,
 			'skills' => $this->skills
 		];
