@@ -13,6 +13,8 @@ function addMemberToDatabase($member) {
 	$data = array('memberid' => $member->getMemberId(),
 		'title' => $member->getTitle(),
 		'address' => $member->getAddress(),
+		'latdeg' => $member->getLatDeg(),
+		'londeg' => $member->getLonDeg(),
 		'email' => $member->getEmail(),
 		'skills' => $member->getSkills());
 
@@ -46,10 +48,12 @@ function getMemberFromDatabase($id) {
 		"SELECT memberid,
 			title,
 			address,
+			latdeg,
+			londeg,
 			email,
 			skills FROM $table_name WHERE memberid = $id;");
-	$tmp = new JofMember($res->title, $res->address,
-		$res->email, $res->skills);
+	$tmp = new JofMember($res->title, $res->address, $res->latdeg,
+		$res->londeg, $res->email, $res->skills);
 	$tmp->setMemberId($res->memberid);
 	return $tmp;
 }
@@ -64,12 +68,14 @@ function getAllMembersFromDatabase() {
 		"SELECT memberid,
 			title,
 			address,
+			latdeg,
+			londeg,
 			email,
 			skills FROM $table_name;");
 	$result = array();
 	foreach($rows as &$row) {
-		$tmp = new JofMember($row->title, $row->address, $row->email,
-			$row->skills);
+		$tmp = new JofMember($row->title, $row->address, $row->latdeg,
+			$row->londeg, $row->email, $row->skills);
 		$tmp->setMemberId($row->memberid);
 		array_push($result, $tmp);
 	}
