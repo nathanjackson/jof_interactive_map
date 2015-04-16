@@ -21,7 +21,6 @@ function get_lat_long($address){
     $encoded_address = urlencode($address);
 
     $json = file_get_contents("http://maps.googleapis.com/maps/api/geocode/json?address=$encoded_address&sensor=false");
-    echo $json;
     $json = json_decode($json);
 
     $lat = $json->{'results'}[0]->{'geometry'}->{'location'}->{'lat'};
