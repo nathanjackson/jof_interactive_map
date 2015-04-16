@@ -30,4 +30,4 @@ function get_lat_long($address){
     return $LatLng;
 }
 
-//echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
+echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
