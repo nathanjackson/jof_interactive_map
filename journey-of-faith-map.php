@@ -241,7 +241,7 @@ function regionsManagementPage()
 function map_management_hook() {
 	add_management_page('Interactive Map Members Manager',
 		'Interactive Map Members Manager', 'manage_options', 'members-manager',
-		'memebersManagementPage');
+		'membersManagementPage');
 	add_management_page('Interactive Map Events Manager',
 		'Interactive Map Events Manager', 'manage_options', 'events-manager',
 		'eventsManagementPage');
