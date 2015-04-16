@@ -56,7 +56,7 @@ function install() {
 	dbDelta($sql);
 }
 
-function mapManagementPage() {
+function membersManagementPage() {
 	if(!current_user_can( 'manage_options' ) ) {
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
@@ -65,11 +65,11 @@ function mapManagementPage() {
 	$members = getAllMembersFromDatabase();
 
 	?>
-	<h2>Interactive Map Management</h2><br>
-	<form>
+	<h2>Interactive Map Members Management</h2><br>
+	<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadMembers.php'; ?> method='post' enctype="multipart/form-data">
 		<h4>Data Import</h4>
 		<fieldset>
-			File: <input type='file' title='spreadsheet'><br>
+			File: <input type='file' title='spreadsheet' name='file'><br>
 			<input type='submit' name='Import' value='Import'>
 		</fieldset>
 	</form><br>
@@ -116,10 +116,138 @@ function mapManagementPage() {
 	<?php
 }
 
+function eventsManagementPage()
+{
+	if(!current_user_can( 'manage_options' ) ) {
+		wp_die(__('You do not have sufficient permissions to access this page.'));
+	}
+	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofEventsInterface.php");
+	$events = getAllEventsFromDatabase();
+	?>
+		<h2>Interactive Map Events Management</h2><br>
+		<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadEvents.php'; ?> method='post' enctype="multipart/form-data">
+		<h4>Data Import</h4>
+		<fieldset>
+			File: <input type='file' title='spreadsheet' name='file'><br>
+			<input type='submit' name='Import' value='Import'>
+		</fieldset>
+	</form><br>
+	<form action=<?php echo plugins_url() . '/jof_interactive_map/addEvent.php'; ?> method="post">
+		<fieldset>
+			<h4>Add Event</h4>
+			Name: <input type="text" name="name"><br>
+			Address: <input type="text" name="address"><br /><br />
+			Only Use Numbers <br />
+			Begin Month: <input type="text" name="bmonth"><br>
+			Begin Day: <input type="text" name="bday"><br>
+			Begin Year: <input type="text" name="byear"><br>
+			Begin Hour: <input type="text" name="bhour"><br>
+			Begin Minute: <input type="text" name="bminute"><br>
+			End Month: <input type="text" name="emonth"><br>
+			End Day: <input type="text" name="eday"><br>
+			End Year: <input type="text" name="eyear"><br>
+			End Hour: <input type="text" name="ehour"><br>
+			End Minute: <input type="text" name="eminute"><br>
+		<input type="submit" name="add" value="Add">
+		</fieldset>
+		</form><br />
+		<form id='eventUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/saveEvent.php'; ?> method='post'>
+			<h4>Edit or Remove Events</h4>
+			<fieldset>
+				<select multiple id='selected_event' name='selected_event' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>
+					<?php
+						foreach($events as $event) {
+							$id = $event->getMemberId();
+							$name = $event->getName();
+							echo "<option value=\"$id\">$name</option>";
+						}
+					?>
+				</select><br>
+				Name: <input id='name' type="text" name="name"><br>
+				Address: <input id='address' type="text" name="address"><br />
+				Start Date: <input id='sdate' type="text" name="sdate"><br>
+				End Date: <input id='edate' type="text" name="edate"><br>
+				<input type='submit' name='Update' value='Modify'>
+				<input type='submit' name='Update' value='Delete'>
+			<script>
+				var events = JSON.parse('<?php echo json_encode($events); ?>');
+				function fillUpdateForm(idx) {
+					document.getElementById('eventUpdateForm').name.value = events[idx].name;
+					document.getElementById('eventUpdateForm').address.value = event[idx].address;
+					document.getElementById('eventUpdateForm').sdate.value = events[idx].startdate;
+					document.getElementById('eventUpdateForm').edate.value = events[idx].enddate;
+				}
+			</script>
+		</fieldset>
+	</form><br>
+
+	<?php
+}
+
+function regionsManagementPage()
+{
+	if(!current_user_can( 'manage_options' ) ) {
+		wp_die(__('You do not have sufficient permissions to access this page.'));
+	}
+	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofRegionsInterface.php");
+	$regions = getAllRegionsFromDatabase();
+	?>
+	<h2>Interactive Map Regions Management</h2><br>
+	<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadRegions.php'; ?> method='post' enctype="multipart/form-data">
+		<h4>Data Import</h4>
+		<fieldset>
+			File: <input type='file' title='geojson' name='file'><br>
+			<input type='submit' name='Import' value='Import'>
+		</fieldset>
+	</form><br>
+	<form action=<?php echo plugins_url() . '/jof_interactive_map/addRegion.php'; ?> method="post" id="addRegion">
+		<fieldset>
+			<h4>Add Region</h4>
+			Name: <input type="text" name="name"><br>
+			GeoJSON: copy and paste the GeoJSON code generated here:
+			<a href="http://geojson.io" target="_blank"><button type="button">Draw Region</button></a><br />
+			<textArea rows="10" cols="75" wrap="soft" form="addRegion" name="geojson"></textArea><br />
+		<input type="submit" name="add" value="Add">
+		</fieldset>
+		</form><br />
+		<form id='regionUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/regionsHandler.php'; ?> method='post'>
+			<h4>Edit or Remove Regions</h4>
+			<fieldset>
+				<select multiple id='selected_region' name='selected_region' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>
+					<?php
+						foreach($regions as $region) {
+							$id = $event->getRegionId();
+							$name = $event->getName();
+							echo "<option value=\"$id\">$name</option>";
+						}
+					?>
+				</select><br>
+				Name: <input id='name' type="text" name="name"><br>
+				Coordinates: <input id='geojson' type="text" name="geojson"><br />
+				<input type='submit' name='Update' value='Modify'>
+				<input type='submit' name='Update' value='Delete'>
+			<script>
+				var regions = JSON.parse('<?php echo json_encode($regions); ?>');
+				function fillUpdateForm(idx) {
+					document.getElementById('regionUpdateForm').name.value = events[idx].name;
+					document.getElementById('regionUpdateForm').geojson.value = event[idx].geojson;
+				}
+			</script>
+		</fieldset>
+	</form><br>
+	<?php
+}
+
 function map_management_hook() {
-	add_management_page('Interactive Map Manager',
-		'Interactive Map Manager', 'manage_options', 'map-manager',
-		'mapManagementPage');
+	add_management_page('Interactive Map Members Manager',
+		'Interactive Map Members Manager', 'manage_options', 'members-manager',
+		'memebersManagementPage');
+	add_management_page('Interactive Map Events Manager',
+		'Interactive Map Events Manager', 'manage_options', 'events-manager',
+		'eventsManagementPage');
+	add_management_page('Interactive Map Regions Manager',
+		'Interactive Map Regions Manager', 'manage_options', 'regions-manager',
+		'regionsManagementPage');
 }
 
 /**
