@@ -54,6 +54,23 @@ function install() {
 		PRIMARY KEY (`eventid`)
 	) " . $charset_collate . ";";
 	dbDelta($sql);
+
+	// Add JofChapels table.
+	$tbl = $wpdb->prefix . "jofchapels";
+	$sql = "CREATE TABLE `" . $tbl . "` (
+		`chapelid` int(11) NOT NULL AUTO_INCREMENT,
+		`address` varchar(1024) NOT NULL,
+		`latdeg` real NOT NULL,
+		`londeg` real NOT NULL,
+		`installation` varchar(1024) NOT NULL,
+		`name` varchar(1024) NOT NULL,
+		`cwocEmail` varchar(1024),
+		`phoneNumber` varchar(12),
+		`parishCoordEmail` varchar(1024),
+		PRIMARY KEY  (`chapelid`)
+	) " . $charset_collate . ";";
+	dbDelta($sql);
+
 }
 
 function membersManagementPage() {

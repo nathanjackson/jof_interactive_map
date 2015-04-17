@@ -13,6 +13,8 @@ function addEventToDatabase($event) {
 	$data = array('eventid' => $event->getEventId(),
 		'name' => $event->getName(),
 		'address' => $event->getAddress(),
+		'latdeg' => $event->getLatDeg(),
+		'londeg' => $event->getLonDeg(),
 		'startDate' => $event->getStartDate(),
 		'endDate' => $event->getEndDate());
 
@@ -46,9 +48,11 @@ function getEventFromDatabase($id) {
 		"SELECT eventid,
 			name,
 			address,
+			latdeg,
+			londeg,
 			startDate,
 			endDate FROM $table_name WHERE eventid = $id;");
-	$tmp = new JofEvent($res->name, $res->address,
+	$tmp = new JofEvent($res->name, $res->address, $row->latdeg, $row->londeg,
 		$res->startDate, $res->endDate);
 	$tmp->setEventId($res->eventid);
 	return $tmp;
@@ -64,12 +68,14 @@ function getAllEventsFromDatabase() {
 		"SELECT eventid,
 			name,
 			address,
+			latdeg,
+			londeg,
 			startDate,
 			endDate FROM $table_name;");
 	$result = array();
 	foreach($rows as &$row) {
-		$tmp = new JofEvent($row->name, $row->address, $row->startDate,
-			$row->endDate);
+		$tmp = new JofEvent($row->name, $row->address, $row->latdeg,
+			$row->londeg, $row->startDate, $row->endDate);
 		$tmp->setEventId($row->eventid);
 		array_push($result, $tmp);
 	}
