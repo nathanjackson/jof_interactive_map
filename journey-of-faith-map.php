@@ -233,8 +233,8 @@ function regionsManagementPage()
 				<select multiple id='selected_region' name='selected_region' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>
 					<?php
 						foreach($regions as $region) {
-							$id = $event->getRegionId();
-							$name = $event->getName();
+							$id = $region->getRegionId();
+							$name = $region->getName();
 							echo "<option value=\"$id\">$name</option>";
 						}
 					?>
@@ -246,8 +246,8 @@ function regionsManagementPage()
 			<script>
 				var regions = JSON.parse('<?php echo json_encode($regions); ?>');
 				function fillUpdateForm(idx) {
-					document.getElementById('regionUpdateForm').name.value = events[idx].name;
-					document.getElementById('regionUpdateForm').geojson.value = event[idx].geojson;
+					document.getElementById('regionUpdateForm').name.value = regions[idx].name;
+					document.getElementById('regionUpdateForm').geojson.value = regions[idx].geojson;
 				}
 			</script>
 		</fieldset>
@@ -255,10 +255,78 @@ function regionsManagementPage()
 	<?php
 }
 
+function chapelsManagementPage()
+{
+	if(!current_user_can( 'manage_options' ) ) {
+		wp_die(__('You do not have sufficient permissions to access this page.'));
+	}
+	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofChapelsInterface.php");
+	$chapels = getAllChapelsFromDatabase();
+	?>
+		<h2>Interactive Map Chapels Management</h2><br>
+		<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadChapel.php'; ?> method='post' enctype="multipart/form-data">
+		<h4>Data Import</h4>
+		<fieldset>
+			File: <input type='file' title='spreadsheet' name='file'><br>
+			<input type='submit' name='Import' value='Import'>
+		</fieldset>
+	</form><br>
+	<form action=<?php echo plugins_url() . '/jof_interactive_map/addChapel.php'; ?> method="post">
+		<fieldset>
+			<h4>Add Chapel</h4>
+			Name: <input type="text" name="name"><br>
+			Address: <input type="text" name="address"><br /><br />
+			Installation: <input type="text" name="installation"><br>
+			CWOC E-Mail: <input type="text" name="cwocEmail"><br>
+			Phone #: <input type="text" name="phone"><br>
+			Parish E-Mail: <input type="text" name="parishEmail"><br>
+		<input type="submit" name="add" value="Add">
+		</fieldset>
+		</form><br />
+		<form id='chapelUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/editChapel.php'; ?> method='post'>
+			<h4>Edit or Remove Chapel</h4>
+			<fieldset>
+				<select multiple id='selected_chapel' name='selected_chapel' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>
+					<?php
+						foreach($chapels as $chapel) {
+							$id = $chapel->getChapelId();
+							$name = $chapel->getName();
+							echo "<option value=\"$id\">$name</option>";
+						}
+					?>
+				</select><br>
+				Name: <input id="name" type="text" name="name"><br>
+				Address: <input id="address" type="text" name="address"><br /><br />
+				Installation: <input id="installation" type="text" name="installation"><br>
+				CWOC E-Mail: <input id="cwocEmail" type="text" name="cwocEmail"><br>
+				Phone #: <input id="phone" type="text" name="phone"><br>
+				Parish E-Mail: <input id="parishEmail" type="text" name="parishEmail"><br>
+				<input type='submit' name='Update' value='Modify'>
+				<input type='submit' name='Update' value='Delete'>
+			<script>
+				var chapels = JSON.parse('<?php echo json_encode($chapels); ?>');
+				function fillUpdateForm(idx) {
+					document.getElementById('chapelUpdateForm').name.value = chapels[idx].name;
+					document.getElementById('chapelUpdateForm').address.value = chapels[idx].address;
+					document.getElementById('chapelUpdateForm').sdate.value = chapels[idx].installation;
+					document.getElementById('chapelUpdateForm').edate.value = chapels[idx].cwocEmail;
+					document.getElementById('chapelUpdateForm').edate.value = chapels[idx].phoneNumber;
+					document.getElementById('chapelUpdateForm').edate.value = chapels[idx].parishCoordEmail;
+				}
+			</script>
+		</fieldset>
+	</form><br>
+
+	<?php
+}
+
 function map_management_hook() {
 	add_management_page('Interactive Map Members Manager',
 		'Interactive Map Members Manager', 'manage_options', 'members-manager',
 		'membersManagementPage');
+	add_management_page('Interactive Map Chapel Manager',
+		'Interactive Map Chapel Manager', 'manage_options', 'chapels-manager',
+		'chapelsManagementPage');
 	add_management_page('Interactive Map Events Manager',
 		'Interactive Map Events Manager', 'manage_options', 'events-manager',
 		'eventsManagementPage');

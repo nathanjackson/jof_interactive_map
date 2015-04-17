@@ -1,6 +1,6 @@
 <?php
 include_once('../../../../wp-load.php');
-include_once('../data_layer/JofRegionsInterface.php');
+include_once('./data_layer/JofRegionsInterface.php');
 
 if ($_POST['Update'] == 'Modify') 
 {
