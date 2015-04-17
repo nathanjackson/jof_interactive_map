@@ -20,6 +20,6 @@ else
 	echo "You somehow selected something different";
 }
 
-header('Location: regions.php');
+//header('Location: regions.php');
 echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
 ?>

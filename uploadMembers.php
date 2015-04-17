@@ -10,7 +10,7 @@
 		{	
 			//Store file in directory "upload" with the name of "members.csv"
 			$storagename = "members.csv";
-			move_uploaded_file($_FILES["file"]["tmp_name"], "upload/" . $storagename);
+			move_uploaded_file($_FILES["file"]["tmp_name"], plugins_url() . "/jof_interactive_map/upload/" . $storagename);
 			echo "Stored in: " . "upload/" . $_FILES["file"]["name"] . "<br />";
 		}
      } 

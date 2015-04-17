@@ -1,6 +1,6 @@
 <?php
 include_once('../../../wp-load.php');
-include_once('./data_layer/JofMembersInterface.php');
+include_once('../data_layer/JofMembersInterface.php');
 		
 if($_POST['Add'] == 'Add')
 {
