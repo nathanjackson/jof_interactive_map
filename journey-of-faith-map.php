@@ -78,7 +78,7 @@ function membersManagementPage() {
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
 
-	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofMembersInterface.php");
+	include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofMembersInterface.php");
 	$members = getAllMembersFromDatabase();
 
 	?>
@@ -138,7 +138,7 @@ function eventsManagementPage()
 	if(!current_user_can( 'manage_options' ) ) {
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
-	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofEventsInterface.php");
+	include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofEventsInterface.php");
 	$events = getAllEventsFromDatabase();
 	?>
 		<h2>Interactive Map Events Management</h2><br>
@@ -206,7 +206,7 @@ function regionsManagementPage()
 	if(!current_user_can( 'manage_options' ) ) {
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
-	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofRegionsInterface.php");
+	include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofRegionsInterface.php");
 	$regions = getAllRegionsFromDatabase();
 	?>
 	<h2>Interactive Map Regions Management</h2><br>
@@ -260,7 +260,7 @@ function chapelsManagementPage()
 	if(!current_user_can( 'manage_options' ) ) {
 		wp_die(__('You do not have sufficient permissions to access this page.'));
 	}
-	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofChapelsInterface.php");
+	include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofChapelsInterface.php");
 	$chapels = getAllChapelsFromDatabase();
 	?>
 		<h2>Interactive Map Chapels Management</h2><br>
@@ -340,7 +340,7 @@ function map_management_hook() {
 * found then it is deleted.
 */
 function checkDates() {
-	include(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofEventsInterface.php");
+	include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofEventsInterface.php");
 
 	$events = getAllEventsFromDatabase();
 

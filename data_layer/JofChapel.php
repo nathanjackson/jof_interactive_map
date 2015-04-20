@@ -153,7 +153,7 @@ class JofChapel implements JsonSerializable {
 			'londeg' => $londeg,
 			'installation' => $installation,
 			'name' => $name,
-			'cwocEmail' => $cwocEmail;
+			'cwocEmail' => $cwocEmail,
 			'phoneNumber' => $phoneNumber,
 			'parishCoordEmail' => $parishCoordEmail
 		];
