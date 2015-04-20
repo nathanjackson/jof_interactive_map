@@ -275,7 +275,7 @@ function chapelsManagementPage()
 		<fieldset>
 			<h4>Add Chapel</h4>
 			Name: <input type="text" name="name"><br>
-			Address: <input type="text" name="address"><br /><br />
+			Address: <input type="text" name="address"><br />
 			Installation: <input type="text" name="installation"><br>
 			CWOC E-Mail: <input type="text" name="cwocEmail"><br>
 			Phone #: <input type="text" name="phone"><br>
@@ -296,7 +296,7 @@ function chapelsManagementPage()
 					?>
 				</select><br>
 				Name: <input id="name" type="text" name="name"><br>
-				Address: <input id="address" type="text" name="address"><br /><br />
+				Address: <input id="address" type="text" name="address"><br />
 				Installation: <input id="installation" type="text" name="installation"><br>
 				CWOC E-Mail: <input id="cwocEmail" type="text" name="cwocEmail"><br>
 				Phone #: <input id="phone" type="text" name="phone"><br>

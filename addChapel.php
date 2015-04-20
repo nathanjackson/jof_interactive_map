@@ -15,7 +15,7 @@ if($_POST['Add'] == 'Add')
 	$LatLng = get_lat_long($address);
 	$lat = $LatLng[0];
 	$long = $LatLng[1];
-	$chapel = new JofChapel($address, $lat, $long, $long, $installation, $name, $cwocEmail, $phone, $parishEmail);
+	$chapel = new JofChapel($address, $lat, $long, $installation, $name, $cwocEmail, $phone, $parishEmail);
 	addChapelToDatabase($chapel);
 }
 
