@@ -64,6 +64,13 @@ class JofChapel implements JsonSerializable {
 	}
 
 	/**
+	* Gets the chapel installation.
+	*/
+	public function getInstallation() {
+		return $this->installation;
+	}
+
+	/**
 	* Gets the chapel's CWOC email address.
 	*/
 	public function getCwocEmail() {

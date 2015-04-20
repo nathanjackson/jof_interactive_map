@@ -280,7 +280,7 @@ function chapelsManagementPage()
 			CWOC E-Mail: <input type="text" name="cwocEmail"><br>
 			Phone #: <input type="text" name="phone"><br>
 			Parish E-Mail: <input type="text" name="parishEmail"><br>
-		<input type="submit" name="add" value="Add">
+		<input type="submit" name="Add" value="Add">
 		</fieldset>
 		</form><br />
 		<form id='chapelUpdateForm' action=<?php echo plugins_url() . '/jof_interactive_map/editChapel.php'; ?> method='post'>
@@ -356,4 +356,3 @@ add_action('plugins_loaded', 'checkDates');
 add_action( 'admin_menu', 'map_management_hook' );
 
 ?>
-
