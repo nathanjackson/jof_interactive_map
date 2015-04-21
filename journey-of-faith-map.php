@@ -309,6 +309,10 @@ function chapelsManagementPage()
 				function fillUpdateForm(idx) {
 					document.getElementById('chapelUpdateForm').name.value = chapels[idx].name;
 					document.getElementById('chapelUpdateForm').address.value = chapels[idx].address;
+					document.getElementById('chapelUpdateForm').installation.value = chapels[idx].installation;
+					document.getElementById('chapelUpdateForm').cwocEmail.value = chapels[idx].cwocEmail;
+					document.getElementById('chapelUpdateForm').phone.value = chapels[idx].phoneNumber;
+					document.getElementById('chapelUpdateForm').parishEmail.value = chapels[idx].parishCoordEmail;
 				}
 			</script>
 		</fieldset>

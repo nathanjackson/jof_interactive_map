@@ -14,7 +14,7 @@ if($_POST['Update'] == 'Modify')
 	$LatLng = get_lat_long($address);
 	$lat = $LatLng[0];
 	$long = $LatLng[1];
-	$chapel = new JofChapel($address, $lat, $long, $long, $installation, $name, $cwocEmail, $phone, $parishEmail);
+	$chapel = new JofChapel($address, $lat, $long, $installation, $name, $cwocEmail, $phone, $parishEmail);
 	$chapel->setChapelId($_POST['selected_chapel']);
 	addChapelToDatabase($chapel);
 }
@@ -24,6 +24,6 @@ else if($_POST['Update'] == 'Delete')
 	removeChapelFromDatabase($id);
 }
 
-//echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
+echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
 
 ?>
