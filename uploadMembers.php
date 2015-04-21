@@ -70,4 +70,4 @@ for($row=2; $row<=$highestRow; ++$row) {
 	addMemberToDatabase($member);
 }
 
-echo 'success';
+echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
