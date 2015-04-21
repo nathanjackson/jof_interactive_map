@@ -96,7 +96,7 @@ class JofChapel implements JsonSerializable {
 	* Sets the chapel's id.
 	*/
 	public function setChapelId($id) {
-		$this->chapelId = $id;
+		$this->id = $id;
 	}
 
 	public function setName($name) {
@@ -154,15 +154,15 @@ class JofChapel implements JsonSerializable {
 
 	public function jsonSerialize() {
 		return [
-			'id' => $id,
-			'address' => $address,
-			'latdeg' => $latdeg,
-			'londeg' => $londeg,
-			'installation' => $installation,
-			'name' => $name,
-			'cwocEmail' => $cwocEmail,
-			'phoneNumber' => $phoneNumber,
-			'parishCoordEmail' => $parishCoordEmail
+			'id' => $this->id,
+			'address' => $this->address,
+			'latdeg' => $this->latdeg,
+			'londeg' => $this->londeg,
+			'installation' => $this->installation,
+			'name' => $this->name,
+			'cwocEmail' => $this->cwocEmail,
+			'phoneNumber' => $this->phoneNumber,
+			'parishCoordEmail' => $this->parishCoordEmail
 		];
 	}
 }

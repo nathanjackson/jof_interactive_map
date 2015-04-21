@@ -264,7 +264,7 @@ function chapelsManagementPage()
 	$chapels = getAllChapelsFromDatabase();
 	?>
 		<h2>Interactive Map Chapels Management</h2><br>
-		<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadChapel.php'; ?> method='post' enctype="multipart/form-data">
+		<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadChapels.php'; ?> method='post' enctype="multipart/form-data">
 		<h4>Data Import</h4>
 		<fieldset>
 			File: <input type='file' title='spreadsheet' name='file'><br>
@@ -290,8 +290,9 @@ function chapelsManagementPage()
 					<?php
 						foreach($chapels as $chapel) {
 							$id = $chapel->getChapelId();
+							$installation = $chapel->getInstallation();
 							$name = $chapel->getName();
-							echo "<option value=\"$id\">$name</option>";
+							echo "<option value=\"$id\">$installation - $name</option>";
 						}
 					?>
 				</select><br>
@@ -304,14 +305,10 @@ function chapelsManagementPage()
 				<input type='submit' name='Update' value='Modify'>
 				<input type='submit' name='Update' value='Delete'>
 			<script>
-				var chapels = JSON.parse('<?php echo json_encode($chapels); ?>');
+				var chapels = <?php echo json_encode($chapels) ?>;
 				function fillUpdateForm(idx) {
 					document.getElementById('chapelUpdateForm').name.value = chapels[idx].name;
 					document.getElementById('chapelUpdateForm').address.value = chapels[idx].address;
-					document.getElementById('chapelUpdateForm').sdate.value = chapels[idx].installation;
-					document.getElementById('chapelUpdateForm').edate.value = chapels[idx].cwocEmail;
-					document.getElementById('chapelUpdateForm').edate.value = chapels[idx].phoneNumber;
-					document.getElementById('chapelUpdateForm').edate.value = chapels[idx].parishCoordEmail;
 				}
 			</script>
 		</fieldset>
@@ -351,8 +348,62 @@ function checkDates() {
 	}
 }
 
+class Map_Widget extends WP_Widget {
+        public function __construct() {
+                parent::__construct('map_widget', __('Map Widget', 'text_domain'),
+                        array( 'description' => __('Interactive Map Widget', 'text_domain')));
+        }
+
+        public function widget($args, $instance) {
+		include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofMembersInterface.php");
+		$members = getAllMembersFromDatabase();
+                ?>
+		<script src="http://maps.google.com/maps/api/js?sensor=false"
+			type="text/javascript"></script>
+		<div id="map" style="width: 500px; height: 400px;"></div>
+		<script>
+		function createContent(title, address, email, skills) {
+			var infoContent = '<div id ="content">' +
+                        '<p>\nTitle: ' + title + '\n</p>' +
+                        '<p>\nLocation: ' + address + '\n</p>' +
+                        '<p>\nSpecialty: ' + email + '\n</p>' +
+                        '<p>\nContact: ' + skills + '\n</p>' +
+                        '</div>';
+                	return infoContent;
+            	}
+
+		var members = JSON.parse('<?php echo json_encode($members); ?>');
+
+		var map = new google.maps.Map(document.getElementById('map'), {
+      			zoom: 10,
+      			center: new google.maps.LatLng(39.949649, -75.736879),
+      			mapTypeId: google.maps.MapTypeId.ROADMAP
+    		});
+
+		for(member of members) {
+			var coord = new google.maps.LatLng(member.latdeg, member.londeg);
+			var marker = new google.maps.Marker({
+				position: coord,
+				map: map,
+				title: member.title
+			});
+
+			var markerData = createContent(member.title, member.address, member.email, member.skills);
+			google.maps.event.addListener(marker, 'click', function() {
+				var infownd = new google.maps.InfoWindow({ content: createContent(member.title, member.address, member.email, member.skills) });
+				infownd.open(map, marker);
+			});
+		}
+		</script>
+                <?php
+        }
+}
+
 register_activation_hook(__FILE__, 'install');
 add_action('plugins_loaded', 'checkDates');
 add_action( 'admin_menu', 'map_management_hook' );
+add_action( 'widgets_init', function() {
+	register_widget('Map_Widget');
+});
 
 ?>
