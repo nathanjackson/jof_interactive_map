@@ -24,6 +24,6 @@ else if($_POST['Update'] == 'Delete')
 	removeChapelFromDatabase($id);
 }
 
-echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
+//echo "<meta http-equiv=\"refresh\" content=\"0;url=".$_SERVER['HTTP_REFERER']."\"/>";
 
 ?>

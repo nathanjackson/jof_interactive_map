@@ -19,8 +19,8 @@ class JofMember implements JsonSerializable {
 		$this->memberId = null;
 		$this->title = $title;
 		$this->address = $addr;
-		$this->latdeg = $latDeg;
-		$this->londeg = $lonDeg;
+		$this->latDeg = $latDeg;
+		$this->lonDeg = $lonDeg;
 		$this->email = $email;
 		$this->skills = $skills;
 	}
@@ -51,14 +51,14 @@ class JofMember implements JsonSerializable {
 	* Gets the member latitude.
 	*/
 	public function getLatDeg() {
-		return $this->latdeg;
+		return $this->latDeg;
 	}
 
 	/**
 	* Gets the member longitude.
 	*/
 	public function getLonDeg() {
-		return $this->londeg;
+		return $this->lonDeg;
 	}
 
 	/**
@@ -99,15 +99,15 @@ class JofMember implements JsonSerializable {
 	/**
 	* Sets the member's latitude.
 	*/
-	public function setLatDeg($latdeg) {
-		$this->latdeg = $latdeg;
+	public function setLatDeg($latDeg) {
+		$this->latDeg = $latDeg;
 	}
 
 	/**
 	* Sets the member's longitude.
 	*/
-	public function setLonDeg($londeg) {
-		$this->londeg = $londeg;
+	public function setLonDeg($lonDeg) {
+		$this->lonDeg = $lonDeg;
 	}
 
 	/**
