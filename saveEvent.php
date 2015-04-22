@@ -8,7 +8,7 @@ if ($_POST['Update'] == 'Modify')
 	//$LatLng = get_lat_long($_POST['address']);
 	$lat = 0;//$LatLng[0];
 	$long = 0;//$LatLng[1];
-	$event = new JofEvent($_POST['name'], $_POST['address'], $lat, $long,
+	$event = new JofEvent($_POST['name'], $_POST['theme'], $_POST['address'], $lat, $long,
 		$_POST['sdate'], $_POST['edate']);
 	$event->setEventId($_POST['selected_event']);
 	addEventToDatabase($event);

@@ -6,6 +6,7 @@ include_once('./util.php');
 if ($_POST['add'] == 'Add')
 {
 	$name = $_POST["name"];
+	$theme = $_POST["theme"];
 	$address = $_POST["address"];
 //	$LatLng = get_lat_long($address);
 	$lat = 0; //$LatLng[0];
@@ -22,7 +23,7 @@ if ($_POST['add'] == 'Add')
 	$eminute = $_POST["eminute"];
 	$begin = date("Y-m-d H:i:s", mktime($bhour, $bminute, 0, $bmonth, $bday, $byear, -1));
 	$end = date("Y-m-d H:i:s", mktime($ehour, $eminute, 0, $emonth, $eday, $eyear, -1));
-	$event = new JofEvent($name, $address, $lat, $long, $begin, $end);
+	$event = new JofEvent($name, $theme, $address, $lat, $long, $begin, $end);
 	addEventToDatabase($event);
 }
 	

@@ -6,6 +6,7 @@
 class JofEvent implements JsonSerializable {
 	private $id;
 	private $name;
+	private $theme;
 	private $address;
 	private $latdeg;
 	private $londeg;
@@ -16,8 +17,9 @@ class JofEvent implements JsonSerializable {
 	* Construct a new JofEvent object.  New events have a null ID, as the
 	* database assigns IDs automatically.
 	*/
-	public function __construct($name, $address, $latdeg, $londeg, $startDate, $endDate) {
+	public function __construct($name, $theme, $address, $latdeg, $londeg, $startDate, $endDate) {
 		$this->id = null;
+		$this->theme = $theme;
 		$this->name = $name;
 		$this->address = $address;
 		$this->latdeg = $latdeg;
@@ -39,6 +41,10 @@ class JofEvent implements JsonSerializable {
 	*/
 	public function getName() {
 		return $this->name;
+	}
+
+	public function getTheme() {
+		return $this->theme;
 	}
 
 	/**
@@ -81,6 +87,10 @@ class JofEvent implements JsonSerializable {
 	*/
 	public function setEventId($id) {
 		$this->id = $id;
+	}
+
+	public function setTheme($theme) {
+		$this->theme = $theme;
 	}
 
 	/**
@@ -128,6 +138,7 @@ class JofEvent implements JsonSerializable {
 	public function jsonSerialize() {
 		return [
 			'name' => $this->name,
+			'theme' => $this->theme,
 			'address' => $this->address,
 			'latdeg' => $this->latdeg,
 			'londeg' => $this->londeg,

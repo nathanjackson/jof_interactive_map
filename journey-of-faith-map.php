@@ -46,6 +46,7 @@ function install() {
 	$sql = "CREATE TABLE `" . $tbl . "` (
 		`eventid` int(11) NOT NULL AUTO_INCREMENT,
 		`name` varchar(1024) NOT NULL,
+		`theme` varchar(1024) NOT NULL,
 		`address` varchar(1024) NOT NULL,
 		`latdeg` real NOT NULL,
 		`londeg` real NOT NULL,
@@ -153,6 +154,7 @@ function eventsManagementPage()
 		<fieldset>
 			<h4>Add Event</h4>
 			Name: <input type="text" name="name"><br>
+			Theme: <input type="text" name="theme"><br>
 			Address: <input type="text" name="address"><br /><br />
 			Only Use Numbers <br />
 			Begin Month: <input type="text" name="bmonth"><br>
@@ -181,6 +183,7 @@ function eventsManagementPage()
 					?>
 				</select><br>
 				Name: <input id='name' type="text" name="name"><br>
+				Theme: <input id='theme' type="text" name='theme'><br>
 				Address: <input id='address' type="text" name="address"><br />
 				Start Date: <input id='sdate' type="datetime" name="sdate"><br>
 				End Date: <input id='edate' type="datetime" name="edate"><br>
@@ -190,6 +193,7 @@ function eventsManagementPage()
 				var events = JSON.parse('<?php echo json_encode($events); ?>');
 				function fillUpdateForm(idx) {
 					document.getElementById('eventUpdateForm').name.value = events[idx].name;
+					document.getElementById('eventUpdateForm').theme.value = events[idx].theme;
 					document.getElementById('eventUpdateForm').address.value = events[idx].address;
 					document.getElementById('eventUpdateForm').sdate.value = events[idx].startdate;
 					document.getElementById('eventUpdateForm').edate.value = events[idx].enddate;

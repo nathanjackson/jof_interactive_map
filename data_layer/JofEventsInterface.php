@@ -12,6 +12,7 @@ function addEventToDatabase($event) {
 
 	$data = array('eventid' => $event->getEventId(),
 		'name' => $event->getName(),
+		'theme' => $event->getTheme(),
 		'address' => $event->getAddress(),
 		'latdeg' => $event->getLatDeg(),
 		'londeg' => $event->getLonDeg(),
@@ -47,12 +48,13 @@ function getEventFromDatabase($id) {
 	$res = $wpdb->get_row(
 		"SELECT eventid,
 			name,
+			theme,
 			address,
 			latdeg,
 			londeg,
 			startDate,
 			endDate FROM $table_name WHERE eventid = $id;");
-	$tmp = new JofEvent($res->name, $res->address, $row->latdeg, $row->londeg,
+	$tmp = new JofEvent($res->name, $res->theme, $res->address, $row->latdeg, $row->londeg,
 		$res->startDate, $res->endDate);
 	$tmp->setEventId($res->eventid);
 	return $tmp;
@@ -67,6 +69,7 @@ function getAllEventsFromDatabase() {
 	$rows = $wpdb->get_results(
 		"SELECT eventid,
 			name,
+			theme,
 			address,
 			latdeg,
 			londeg,
@@ -74,7 +77,7 @@ function getAllEventsFromDatabase() {
 			endDate FROM $table_name;");
 	$result = array();
 	foreach($rows as &$row) {
-		$tmp = new JofEvent($row->name, $row->address, $row->latdeg,
+		$tmp = new JofEvent($row->name, $row->theme, $row->address, $row->latdeg,
 			$row->londeg, $row->startDate, $row->endDate);
 		$tmp->setEventId($row->eventid);
 		array_push($result, $tmp);
