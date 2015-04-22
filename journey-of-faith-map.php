@@ -174,7 +174,7 @@ function eventsManagementPage()
 				<select multiple id='selected_event' name='selected_event' width='300' style='width: 300px' onChange='fillUpdateForm(this.selectedIndex)'>
 					<?php
 						foreach($events as $event) {
-							$id = $event->getMemberId();
+							$id = $event->getEventId();
 							$name = $event->getName();
 							echo "<option value=\"$id\">$name</option>";
 						}
@@ -182,15 +182,15 @@ function eventsManagementPage()
 				</select><br>
 				Name: <input id='name' type="text" name="name"><br>
 				Address: <input id='address' type="text" name="address"><br />
-				Start Date: <input id='sdate' type="text" name="sdate"><br>
-				End Date: <input id='edate' type="text" name="edate"><br>
+				Start Date: <input id='sdate' type="datetime" name="sdate"><br>
+				End Date: <input id='edate' type="datetime" name="edate"><br>
 				<input type='submit' name='Update' value='Modify'>
 				<input type='submit' name='Update' value='Delete'>
 			<script>
 				var events = JSON.parse('<?php echo json_encode($events); ?>');
 				function fillUpdateForm(idx) {
 					document.getElementById('eventUpdateForm').name.value = events[idx].name;
-					document.getElementById('eventUpdateForm').address.value = event[idx].address;
+					document.getElementById('eventUpdateForm').address.value = events[idx].address;
 					document.getElementById('eventUpdateForm').sdate.value = events[idx].startdate;
 					document.getElementById('eventUpdateForm').edate.value = events[idx].enddate;
 				}
@@ -209,14 +209,7 @@ function regionsManagementPage()
 	include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofRegionsInterface.php");
 	$regions = getAllRegionsFromDatabase();
 	?>
-	<h2>Interactive Map Regions Management</h2><br>
-	<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadRegions.php'; ?> method='post' enctype="multipart/form-data">
-		<h4>Data Import</h4>
-		<fieldset>
-			File: <input type='file' title='geojson' name='file'><br>
-			<input type='submit' name='Import' value='Import'>
-		</fieldset>
-	</form><br>
+	<h2>Interactive Map Regions Management</h2>
 	<form action=<?php echo plugins_url() . '/jof_interactive_map/addRegion.php'; ?> method="post" id="addRegion">
 		<fieldset>
 			<h4>Add Region</h4>
@@ -383,6 +376,19 @@ class Map_Widget extends WP_Widget {
       			center: new google.maps.LatLng(39.949649, -75.736879),
       			mapTypeId: google.maps.MapTypeId.ROADMAP
     		});
+
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+				var pos = new google.maps.LatLng(position.coords.latitude,
+					position.coords.longitude);
+				map.setCenter(pos);
+			}, function() {
+				handleNoGeolocation(true);
+			});
+		}
+		else {
+			handleNoGeolocation(false);
+		}
 
 		for(member of members) {
 			var coord = new google.maps.LatLng(member.latdeg, member.londeg);
