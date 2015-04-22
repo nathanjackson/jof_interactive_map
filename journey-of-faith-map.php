@@ -143,13 +143,6 @@ function eventsManagementPage()
 	$events = getAllEventsFromDatabase();
 	?>
 		<h2>Interactive Map Events Management</h2><br>
-		<form action=<?php echo plugins_url() . '/jof_interactive_map/uploadEvents.php'; ?> method='post' enctype="multipart/form-data">
-		<h4>Data Import</h4>
-		<fieldset>
-			File: <input type='file' title='spreadsheet' name='file'><br>
-			<input type='submit' name='Import' value='Import'>
-		</fieldset>
-	</form><br>
 	<form action=<?php echo plugins_url() . '/jof_interactive_map/addEvent.php'; ?> method="post">
 		<fieldset>
 			<h4>Add Event</h4>
@@ -357,12 +350,21 @@ class Map_Widget extends WP_Widget {
 
         public function widget($args, $instance) {
 		include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofMembersInterface.php");
+		include_once(ABSPATH . "wp-content/plugins/jof_interactive_map/data_layer/JofChapelsInterface.php");
+
 		$members = getAllMembersFromDatabase();
+		$chapels = getAllChapelsFromDatabase();
                 ?>
 		<script src="http://maps.google.com/maps/api/js?sensor=false"
 			type="text/javascript"></script>
-		<div id="map" style="width: 500px; height: 400px;"></div>
+		<div id="map" style="width: 800px; height: 600px;"></div>
 		<script>
+
+		function createChapelDiv(str) {
+			var content = '<div id="content"><h1>' + str + '</h1></div>';
+			return content;
+		}
+
 		function createContent(title, address, email, skills) {
 			var infoContent = '<div id ="content">' +
                         '<p>\nTitle: ' + title + '\n</p>' +
@@ -373,7 +375,10 @@ class Map_Widget extends WP_Widget {
                 	return infoContent;
             	}
 
+		var infowindow = new google.maps.InfoWindow();
+
 		var members = JSON.parse('<?php echo json_encode($members); ?>');
+		var chapels = <?php echo json_encode($chapels) ?>;
 
 		var map = new google.maps.Map(document.getElementById('map'), {
       			zoom: 10,
@@ -402,11 +407,46 @@ class Map_Widget extends WP_Widget {
 				title: member.title
 			});
 
-			var markerData = createContent(member.title, member.address, member.email, member.skills);
-			google.maps.event.addListener(marker, 'click', function() {
-				var infownd = new google.maps.InfoWindow({ content: createContent(member.title, member.address, member.email, member.skills) });
-				infownd.open(map, marker);
+			google.maps.event.addListener(marker,'click', (function(marker, member) {
+				return function() {
+					infowindow.setContent("<h3>" + member.title + "</h3>"
+					+ "<p>" + member.address
+					+ (member.skills != "" ? "<br>Specialty: " + member.skills: "")
+					+ "<br>E-Mail: " + member.email
+					+ "</p>");
+					infowindow.open(map, marker);
+				}
+			})(marker, member));
+
+		}
+
+		for(chapel of chapels) {
+			var coord = new google.maps.LatLng(chapel.latdeg, chapel.londeg);
+			var marker = new google.maps.Marker({
+				position: coord,
+				map: map,
+				title: chapel.name
 			});
+
+			google.maps.event.addListener(marker,'click', (function(marker, chapel) {
+				return function() {
+					infowindow.setContent("<h3>Chapel: " + chapel.name + "</h3>"
+					+ "<p>" + chapel.installation
+					+ "<br>" + chapel.address
+					+ (chapel.cwocEmail != "" ? "<br>CWOC E-mail: " + chapel.cwocEmail : "")
+					+ (chapel.phoneNumber != "" ? "<br>Phone: " + chapel.phoneNumber : "")
+					+ (chapel.parishCoordEmail != "" ? "<br>Parish Coordinator E-mail: " + chapel.parishCoordEmail : "")
+					+ "</p>");
+					infowindow.open(map, marker);
+				}
+			})(marker, chapel));
+
+/*			google.maps.event.addListener(marker, 'click', (function(marker, content, infoWindow) {
+				return function() {
+					infoWindow.setContent(content);
+					infoWindow.open(map, marker);
+				};
+			})(marker, chapel.name, infoWindows[marker]); */
 		}
 		</script>
                 <?php
